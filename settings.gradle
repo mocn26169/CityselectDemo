@@ -1,0 +1,4 @@
+include ':lib'
+include ':tinypinyin-android-asset-lexicons'
+include ':tinypinyin-lexicons-android-cncity'
+include ':app'

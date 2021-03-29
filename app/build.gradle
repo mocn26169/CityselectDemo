@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.honor.cityselectdemo"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+    signingConfigs {
+        //签名秘钥相关
+        release {
+            storeFile file("CitySelectDemo.jks")
+            storePassword "123456"
+            keyAlias "CitySelectDemo"
+            keyPassword "123456"
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            debuggable true//是否允许调试
+            minifyEnabled true//是否开启代码混淆
+            zipAlignEnabled true//是否优化apk文件，将apk文件中未压缩的数据在4个字节边界上对齐
+            shrinkResources true//是否去除无用资源，任何在编译过程中没有用到的资源或者代码都会被删除，可以有效减小apk体积
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        //此处设置是为了方便debug版本也能和正式版本一样使用定位功能
+        debug {
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "ISDEBUG", "true"
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    //拼音
+//    implementation 'com.belerweb:pinyin4j:2.5.0'
+    implementation 'io.github.wnjustdoit:pinyin4j:2.6.0'
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.5'
+    //高德地图定位
+    compile 'com.amap.api:location:latest.integration'
+
+    compile 'com.github.promeg:tinypinyin:2.0.3' // TinyPinyin核心包，约80KB
+
+    compile 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3' // 可选，适用于Android的中国地区词典
+
+//    compile 'com.github.promeg:tinypinyin-lexicons-java-cncity:2.0.3' // 可选，适用于Java的中国地区词典
+}
